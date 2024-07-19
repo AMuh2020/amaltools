@@ -1,0 +1,29 @@
+{% extends "maths/maths_base.html" %}
+{% block meta_description %}Solve both definite and indefinite derivatives with our free online calculator. Simply input your expression and select the derivative type.{% endblock %}
+{% block title %}Derivative Calculator{% endblock %}
+{% block h1 %}Derivative Calculator{% endblock %}
+{% block tool %}
+
+<div id="mathJcontent" class="my-3 border p-3 ">
+    {% if expression %}
+    {% else %}
+    Enter an expression to differentiate
+    {% endif %}
+</div>
+<form method="post" action="" onsubmit="format(event)">
+    {% csrf_token %}
+    <!-- <label for="expression">Calculate the derivative for..</label> -->
+    <div class="input-group" >
+        <input class="form-control" type="text" name="expression" value="{{ input }}" oninput="renderView(this.value)">
+        
+        <input class="btn btn-primary" type="submit">
+    </div>
+</form>
+
+<div id="result" class="my-3">
+
+</div>
+{% endblock %}
+{% block scripts %}
+{% include 'maths/latex_mathjax.html' %}
+{% endblock %}

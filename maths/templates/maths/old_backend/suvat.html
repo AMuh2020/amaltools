@@ -1,0 +1,123 @@
+{% extends "maths/maths_base.html" %}
+{% block meta_description %}{% endblock %}
+{% block title %}SUVAT{% endblock %}
+{% block h1 %}SUVAT{% endblock %}
+{% block tool %}
+<form method="post" action="">
+    {% csrf_token %}
+    <div class="input-group mb-3">
+        <span class="input-group-text">Variable</span>
+        <span class="input-group-text">INPUT</span>
+        <span class="input-group-text">Solve for</span>
+    </div>
+    <div class="input-group mb-3">
+        <span class="justify-content-center input-group-text col-3">Displacement (s)</span>
+        <input class="form-control form-class" type="number" name="s" step="any" min="0" value="" onchange="change()" autocomplete="off" required>
+        <div class="input-group-text">
+            <input class="form-check-input mt-0 radio-class" name="solve_for" type="radio" value="s" onclick="hide()" autocomplete="off" tabindex="-1" required>
+        </div>
+    </div>
+    <div class="input-group mb-3">
+        <span class="justify-content-center input-group-text col-3">Initial velocity (u)</span>
+        <input class="form-control form-class" type="number" name="u" step="any" min="0" value="" onchange="change()" autocomplete="off" required>
+        <div class="input-group-text">
+            <input class="form-check-input mt-0 radio-class" name="solve_for" type="radio" value="u" onclick="hide()" autocomplete="off" tabindex="-1">
+        </div>
+    </div>
+    <div class="input-group mb-3">
+        <span class="justify-content-center input-group-text col-3">Final velocity (v)</span>
+        <input class="form-control form-class" type="number" name="v" step="any" min="0" value="" onchange="change()" autocomplete="off" required>
+        <div class="input-group-text">
+            <input class="form-check-input mt-0 radio-class" name="solve_for" type="radio" value="v" onclick="hide()" autocomplete="off" tabindex="-1">
+        </div>
+    </div>
+    <div class="input-group mb-3">
+        <span class="justify-content-center input-group-text col-3">Acelleration (a)</span>
+        <input class="form-control form-class" type="number" name="a" step="any" min="0" value="" onchange="change()" autocomplete="off" required>
+        <div class="input-group-text">
+            <input class="form-check-input mt-0 radio-class" name="solve_for" type="radio" value="a" onclick="hide()" autocomplete="off" tabindex="-1">
+        </div>
+    </div>
+    <div class="input-group mb-3">
+        <span class=" justify-content-center input-group-text col-3">time (t)</span>
+        <input class="form-control form-class" type="number" name="t" step="any" min="0" value="" onchange="change()" autocomplete="off" required>
+        <div class="input-group-text">
+            <input class="form-check-input mt-0 radio-class" name="solve_for" type="radio" value="t" onclick="hide()" autocomplete="off" tabindex="-1">
+        </div>
+    </div>
+    <input type="text" id="remove" hidden name="remove" value="">
+    <input class="btn btn-primary" type="submit">
+</form>
+{{ answer }}
+{% endblock %}
+{% block scripts %}
+<script type="text/javascript">
+    function hide(){
+        let radios = document.getElementsByClassName('radio-class')
+        for(let i = 0;i < radios.length; i++){
+            if(radios[i].checked ){
+                //console.log(radios[i].value)
+                let toQuery = "input[name='" + radios[i].value +"']"
+                let input = document.querySelector(toQuery)
+                input.setAttribute("disabled", "")
+                input.value=""
+                //console.log("check")
+                input.classList.add("selected")
+                if(input.classList.contains("3max-disabled")){
+                    input.classList.remove("3max-disabled")
+                }
+            }
+            else{
+                let toQuery = "input[name='" + radios[i].value +"']"
+                let input = document.querySelector(toQuery)
+                if(input.classList.contains("3max-disabled")){
+                    //pass
+                }else{
+                    input.removeAttribute("disabled", "")
+                    input.classList.remove("selected")
+                }
+            }
+        }
+        change()
+    }
+    function change(){
+        let inputs = document.querySelectorAll(".form-class")
+        let counter = 0;
+        for(let i = 0;i < inputs.length;i++){
+            //console.log(inputs[i])
+            if(inputs[i].value != ""){
+                counter++;
+            }
+        }
+        console.log(counter)
+        if(counter == 3){
+            for(let i = 0;i < inputs.length;i++){
+                if(inputs[i].value == "" && inputs[i].classList.contains("selected") === false){
+                    inputs[i].setAttribute("disabled", "")
+                    inputs[i].removeAttribute("required", "")
+                    inputs[i].classList.add("3max-disabled")
+                }
+                console.log(inputs[i])
+                if(inputs[i].classList.contains("selected") === false && inputs[i].classList.contains("3max-disabled")){
+                    let n = inputs[i].name
+                    console.log(n)
+                    document.getElementById('remove').value = n
+                }
+            }
+        } else{
+            for(let i = 0;i < inputs.length;i++){
+                if(inputs[i].classList.contains("selected")){
+                    //pass
+                }else{
+                    inputs[i].setAttribute("required", "")
+                    inputs[i].removeAttribute("disabled", "")
+                    inputs[i].classList.remove("3max-disabled")
+                }
+                
+            }
+        }
+        
+    }
+    hide()
+</script>
+{% endblock %}

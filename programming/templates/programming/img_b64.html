@@ -1,0 +1,106 @@
+{% extends "fileconverters/fileconverters_base.html" %}
+{% block meta_description %}Converts Image to base64, and base 64 to images{% endblock %}
+{%block meta_keyword %}Tools, Image, base64, converter, AmalTools, AMALTOOLS, Amal Tools, Amal Tool{% endblock %}
+{% block title %}About{% endblock %}
+{% block h1 %}About{% endblock %}
+{% block tool %}
+<form method="post" action="" enctype="multipart/form-data">
+    {% csrf_token %}
+    <select class="form-select mb-2" name="direction" onchange="change()">
+        <option value="image_to_base64" {% if direction == "image_to_base64" %} selected {% endif %} >Image to base64</option>
+        <option value="base64_to_image"{% if direction == "base64_to_image" %} selected {% endif %}>base64 to Image</option>
+    </select>
+    <div class="input-group group1">
+        <span class="input-group-text">Image: </span>
+        <input class="form-control" type="file" name="image" accept="image/*" value="{{ input }}">
+        <input class="btn btn-primary" type="submit">
+    </div>
+    <div class="input-group group2">
+        <span class="input-group-text">base64: </span>
+        <textarea class="form-control" name="base64_string" rows="4">{{ input }}</textarea>
+        <input class="btn btn-primary" type="submit">
+    </div>
+</form>
+<p>
+{% if direction == "image_to_base64" %}
+<div class="group1">
+    Output: 
+    <textarea class="form-control" rows="10" readonly>{{ base64_string }}</textarea>
+</div>
+    
+{% elif direction == "base64_to_image" %}
+<div class="group2 text-center">
+    <!-- Output: -->
+    <img src="data:image/png;base64, {{ base64_string }}" alt="Image" width="" height="" style="max-width: 30vw;display: block;">
+</div>
+{% endif %}
+</p>
+            
+
+{% endblock %}
+{% block scripts %}
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        direction = "{{ direction }}"
+        change()
+    });
+    
+    function change(){
+        var option = document.querySelector("select").value
+        console.log(direction)
+        if (direction == ""){   
+        if (option == "image_to_base64"){
+            document.querySelectorAll(".group1").forEach(element => {
+                console.log(typeof(element))
+                if (element.classList.contains("input-group")){
+                    element.style.display = "flex";
+                } else {
+                    element.style.display = "block";
+                }
+            }); 
+            document.querySelectorAll(".group2").forEach(element => {
+                element.style.display = "none";
+            });
+        } else if (option == "base64_to_image"){
+            document.querySelectorAll(".group1").forEach(element => {
+                element.style.display = "none";
+            }); 
+            document.querySelectorAll(".group2").forEach(element => {
+                if (element.classList.contains("input-group")){
+                    element.style.display = "flex";
+                } else {
+                    element.style.display = "block";
+                }
+            });
+        };
+        } else if (direction == "image_to_base64"){
+            document.querySelectorAll(".group1").forEach(element => {
+                if (element.classList.contains("input-group")){
+                    element.style.display = "flex";
+                } else {
+                    element.style.display = "block";
+                }
+            }); 
+            document.querySelectorAll(".group2").forEach(element => {
+                element.style.display = "none";
+            });
+            direction = "";
+        } else if (direction == "base64_to_image"){
+            document.querySelectorAll(".group1").forEach(element => {
+                element.style.display = "none";
+            }); 
+            document.querySelectorAll(".group2").forEach(element => {
+                if (element.classList.contains("input-group")){
+                    element.style.display = "flex";
+                } else {
+                    element.style.display = "block";
+                }
+            });
+            direction = "";
+            console.log("direction")
+            console.log("help")
+        };
+    };
+    
+</script>
+{% endblock %}

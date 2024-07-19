@@ -1,0 +1,39 @@
+{% extends "maths/maths_base.html" %}
+{% block title %}Simultaneous Equation{% endblock %}
+{% block h1 %}Simultaneous Equation{% endblock %}
+{% block tool %}
+    <div>
+            <p>Format is ax+by=c</p>
+            <div class="input-group mb-2">
+                <input class="form-control" name="a1"  type="number" value="">
+                <input class="form-control" name="b1"  type="number" value="">
+                <input class="form-control" name="c1"  type="number" value="">
+            </div>
+            <div class="input-group mb-2">
+                <input class="form-control" name="a2"  type="number" value="">
+                <input class="form-control" name="b2"  type="number" value="">
+                <input class="form-control" name="c2"  type="number" value="">
+            </div>
+            <button type="button" id="calculate_btn" onclick="simultaneous" class="btn btn-primary mb-3">Calculate</button>
+    </div>
+    <span id="result"></span>
+
+{% endblock %}
+{% block scripts %}
+<script>
+    // javascript that calculates simultaneous equations
+    document.getElementById("calculate_btn").addEventListener("click", simultaneous);
+    function simultaneous(){
+        console.log("hello");
+        a1 = document.getElementsByName("a1")[0].value;
+        b1 = document.getElementsByName("b1")[0].value;
+        c1 = document.getElementsByName("c1")[0].value;
+        a2 = document.getElementsByName("a2")[0].value;
+        b2 = document.getElementsByName("b2")[0].value;
+        c2 = document.getElementsByName("c2")[0].value;
+        var x = (c1*b2-c2*b1)/(a1*b2-a2*b1);
+        var y = (c1*a2-c2*a1)/(b1*a2-b2*a1);
+        document.getElementById("result").innerHTML = `x = ${x} y = ${y}`;
+    }
+</script>
+{% endblock %}

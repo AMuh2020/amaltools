@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block style %}{% endblock %}
+{% block content %}
+<div class="container-fluid mw-100 h-100 text-center">
+    <h1>{% block h1 %}{% endblock %}</h1>
+    {% if error_msg %}
+        <div class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
+            {{ error_msg }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    {% endif %}
+    <div class="row mw-100 m-0">
+        <div class="col m-1 border p-3 h3 d-flex justify-content-center">
+            <div class="col-12 col-md-6">
+                {% block tool %}
+                
+                {% endblock %}
+            </div>
+        </div>
+        {% block extra %}
+        
+        {% endblock %}
+    </div>
+    {% if library_reference %}
+        <div>
+            The <a href="{{ library_reference.link }}">{{ library_reference.name }}</a>  library was used to create this tool.
+        </div>
+    {% endif %}
+    {% comment %}
+    <div class="row mw-100 m-0">
+        <div class="col m-1 mw-100 border p-3 h3">
+            (from research write up)
+        </div>
+    </div>
+    {% endcomment %}
+</div>
+{% endblock %}

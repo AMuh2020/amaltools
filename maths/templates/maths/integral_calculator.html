@@ -1,0 +1,58 @@
+{% extends "maths/maths_base.html" %}
+{% block meta_description %}Solve both definite and indefinite integrals with our free online calculator. Simply input your expression and select the integral type.{% endblock %}
+{% block title %}Integral Calculator{% endblock %}
+{% block h1 %}Integral Calculator{% endblock %}
+{% block tool %}
+<div id="mathJcontent" class="my-3 border p-3 ">
+    {% if expression %}
+    {% else %}
+    Enter an expression to integrate
+    {% endif %}
+</div>
+<form method="post" action="" onsubmit="format(event)">
+    {% csrf_token %}
+    <div class="input-group" >
+        <input class="form-control" type="text" name="expression" value="{{ input }}" oninput="renderView(this.value)">
+        
+        <input class="btn btn-primary" type="submit">
+    </div>
+    <select class="form-control mt-1" id="integralType" name="integralType" onchange="toggleBoundsInput()">
+        <option value="indefinite" >Indefinite</option>
+        <option value="definite" {% if type_integration == 'definite' %} selected {% endif %}>Definite</option>
+    </select>
+    <div id="boundsInput" class="collapse mt-1">
+        <div class="input-group mt-2">
+            <input class="form-control"  type="text" name="lower_bound" placeholder="Lower bound" value="{{lower_bound}}">
+            <input class="form-control" type="text" name="upper_bound" placeholder="Upper bound" value="{{upper_bound}}">
+        </div>
+    </div>
+</form>
+
+<div id="result" class="my-3">
+
+</div>
+{% endblock %}
+{% block scripts %}
+{% include 'maths/latex_mathjax.html' %}
+<script>
+window.addEventListener('load', function() {
+    var integralType = document.getElementById("integralType").value;
+    var boundsInput = document.getElementById("boundsInput");
+    if (integralType == "definite") {
+        boundsInput.classList.remove("collapse");
+    } else {
+        boundsInput.classList.add("collapse");
+    }
+});
+function toggleBoundsInput() {
+    var integralType = document.getElementById("integralType").value;
+    var boundsInput = document.getElementById("boundsInput");
+    if (integralType == "definite") {
+        boundsInput.classList.remove("collapse");
+    } else {
+        boundsInput.classList.add("collapse");
+    }
+}
+</script>
+
+{% endblock %}

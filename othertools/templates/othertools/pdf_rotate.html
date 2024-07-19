@@ -1,0 +1,31 @@
+{% extends "othertools/othertools_base.html" %}
+{% block meta_description %}Combine PDF Files{% endblock %}
+{%block meta_keyword %}Tools, Website, PDF, Files, File Merger AmalTools, AMALTOOLS, Amal Tools, Amal Tool{% endblock %}
+{% block title %}PDF Merger{% endblock %}
+{% block h1 %}PDF Merger{% endblock %}
+{% block tool %}
+<form method="post" action="" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="input-group group1 mb-3">
+        <span class="input-group-text">File: </span>
+        <input class="form-control" type="file" name="pdf" accept=".pdf">
+    </div>
+    <div class="input-group">
+        <label class="input-group-text" for="rotation">Rotation (clockwise)</label>
+        <select class="form-select" id="rotation" name="rotation_angle">
+            <option value="0">0</option>
+            <option value="90">90</option>
+            <option value="180">180</option>
+            <option value="270">270</option>
+        </select>
+    </div>
+    <input class="btn btn-primary" type="submit">
+    <!-- <div id="advanced_settings" class="collapse">
+        <div class="input-group group1 mb-3">
+            <span class="input-group-text">Output file name: </span>
+            <input class="form-control" type="text" name="output_filename" value="">
+        </div>
+    </div> -->
+    
+</form>
+{% endblock %}

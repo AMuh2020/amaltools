@@ -1,0 +1,13 @@
+{% if tools %}
+    {% for tool in tools %}
+        {% if tool.hidden %}
+            
+        {% else %}
+            <div class="border-top p-2" onclick=" window.location = '/tools/{{ tool.url }}';">
+                <a href="/tools/{{ tool.url }}" class="text-decoration-none text-reset nav-link" >{{ tool.name }}</a>
+            </div>
+        {% endif %}
+    {% endfor %}
+{% else %}
+No tools matches your search query
+{% endif %}

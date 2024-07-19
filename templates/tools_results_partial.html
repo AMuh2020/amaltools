@@ -1,0 +1,33 @@
+{% if tools %}
+    {% for tool in tools %}
+        {% if tool.hidden %}
+            
+        {% else %}
+        <div class="box col-lg-4 col-sm-6 mb-3">
+            <div class="border h-100 p-4 position-relative position-inherit">
+                <div class="z-1 position-relative">
+                    <div onclick=" window.location = '/tools/{{ tool.url }}';">
+                        <h4><a href="/tools/{{ tool.url }}" class="text-decoration-none text-reset" >{{ tool.name }}</a></h4>
+                        <div class="mb-1"><a href="/tools/{{ tool.url }}" class="text-decoration-none text-reset">{{ tool.description }}</a></div>
+                    </div>
+                    {% if tool.featured %}
+                    <div class="mb-1">
+                        <span class="badge text-bg-info">Featured</span>
+                    </div>
+                    {% endif %}
+                    {% for tag in tool.tags.all %}
+                    <a class="" onclick="add_filter('{{ tag }}')" style="cursor: pointer;"  ><span class="badge text-bg-secondary">{{tag}}</span></a>
+                    {% endfor %}
+                </div>
+                <div class="h-100 w-100 position-absolute top-0 start-0 z-0" onclick=" window.location = '/tools/{{ tool.url }}';"></div>
+            </div>
+        </div>
+        {% endif %}
+    {% endfor %}
+{% else %}
+<div class="col-12">
+    <div class="border h-100 p-4" >
+        <h4>No tools found</h4>
+    </div>
+</div>
+{% endif %}

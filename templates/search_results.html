@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block meta_description %}Results page for a search query from amaltools{% endblock %}
+{%block meta_keyword %}Search, AMALTools, Website, amaltool{% endblock %}
+{% block title %}Search results{% endblock %}
+{% block style %}
+<style>
+    
+</style>
+{% endblock %}
+{% block other_header_tags %}
+<link rel="canonical" href="https://amaltools.com" />
+{% endblock %}
+{% block content %}
+<body>
+    <div class="container g-0 h-100 text-center px-4">
+        <h1>Results for '{{search_term}}'</h1>
+        <div class="row">
+            {# Includes the html from tools results partial #}
+            {% include 'tools_results_partial.html' %}
+        </div>
+    </div>
+</body>
+{% endblock %}

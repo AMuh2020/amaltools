@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container-fluid mw-100 g-0 max-vh-100 text-center">
+    <h1>HTML Viewer</h1>
+    <div class="row mw-100 vh-75 m-0 ">
+        {% load static %}
+        <div style="max-height: 70vh;" class="grid-item col-sm-12 col-md-6 mb-1">
+            <div class="border p-3 h3 h-100">
+                <!-- <h2>Html:</h2> -->
+                {# the div where the code mirror component loads Code mirror #}
+                <div id="editor" class="mh-100 text-start overflow-auto"></div>
+            </div>
+            
+        </div>
+        <div style="max-height: 70vh;" class="grid-item col-sm-12 col-md-6 vh-100 mb-1">
+            <div class="border p-3 h3 h-100">
+                <iframe id="html_out" class="w-100 h-100"></iframe>
+                <div id="output" hidden></div>
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
+{% block scripts %}
+{# The codemirror 6 bundle #}
+<script src="{% static 'othertools/editor.bundle.js' %}"></script>
+<script>
+    var editor = document.getElementById("editor")
+    var iframe = document.getElementById("html_out").contentWindow.document;
+    editor.onkeyup = () => {
+        var store = document.getElementById("output")
+        console.log("clicked");
+        console.log(`IO: "${store}"`)
+        iframe.open();
+        iframe.write(`${store.innerHTML}`);
+        iframe.close();  
+    }
+</script>
+{% endblock %} 

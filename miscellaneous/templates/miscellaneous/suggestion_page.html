@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block content %}
+    <h1 style="text-align: center;">Suggest a feature</h1>
+    <div id="container-fluid mw-100 g-0 h-100">
+        <div class="row mw-100 m-0">
+            <div class="grid-item col m-1 mw-100 border p-3 h3">
+                <form method="post" action="">
+                    {% csrf_token %}
+                    <!--https://getbootstrap.com/docs/5.2/forms/form-control/-->
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Name</label>
+                        <input type="text" class="form-control" name="name" placeholder="name" required autocomplete="off">
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email address</label>
+                        <input type="email" class="form-control" name="email" placeholder="name@example.com" required autocomplete="off">
+                    </div>
+                    <div class="mb-3">
+                        <label for="suggestion" class="form-label">Suggestion</label>
+                        <textarea class="form-control" name="suggestion" rows="3" required autocomplete="off"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <button type="submit" class="btn btn-primary mb-3">Suggest</button>
+                    </div>
+                </form>
+                {% if msg_state == "pass" %}
+                <!--https://getbootstrap.com/docs/5.2/components/alerts/-->
+                <div class="alert alert-success" id="pass" role="alert" onload="close()">
+                    Suggestion submitted
+                </div>
+                <script>
+                    console.log("START");
+                    setTimeout(function (){
+                        var alert = document.getElementById("pass");
+                        alert.style.display = "none";
+                        console.log("happend");
+                    },2000)
+                    
+                </script>
+                {% endif %}
+                
+            </div>
+        </div>
+    </div>
+{% endblock %}

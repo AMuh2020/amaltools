@@ -1,0 +1,94 @@
+Zeckendorf
+zeckendorf/
+- Converts any positive integer (Natural number) into its zeckendorf representation
+tags: Math, Converter, Fibonacci, Numbers
+
+Fibonacci
+fibonacci/
+-Lists the fibonacci numbers up to the nth term
+tags: Math, Fibonacci, Numbers
+
+SUVAT Calculator
+suvat/
+- SOLVES SUVAT EQUATIONS, (2 versions server version and js version)
+tags: Maths, Numbers, Quadratic
+
+Quadratic Formula Calculator
+quadratic_formula/
+- Does quadratic formula
+tags: Maths, Numbers, Quadratic
+
+2point
+2point/
+- finds equation of STRAIGHT line between two points
+tags: Maths, Numbers, Graph, Equation
+
+Midpoint
+midpoint/
+- Finds the (x,y) of the mid point of a straight line between two points
+tags: Maths, Graph, Numbers
+
+Binary To Decmial
+binToDec/
+- Converts Binary numbers (base 2) into Decimal numbers (base 10)
+tags: Calculator, Math
+
+Decimal to Binary
+decToBin/
+- Converts Decimal numbers (base 10) into Binary numbers (base 2)
+tags: Converter, Math, Number
+
+Binary To Hexadecimal
+binToHex/
+- converts binary (base 2) into Hexadecimal (base 16)
+tags: Converter, Math, Numbers
+
+Heron's Formula
+herons_formula/
+- This tool calculates the area of a triangle based on the length its three sides using Herons Formula
+tags: Math, Numbers
+
+Text to QR code
+qr_code/
+- This tool converts text into a qr code using the python QRCode library
+tags: Text
+
+Test
+TEST
+-Testing 123
+tags: File Converter, Math, Physics
+
+Word Counter
+word_counter/
+- This tool does what it says, it counts the number of words that were inputted (by detecting spaces)
+tags: Text
+
+Text to QR code
+qr_code/
+- This tool converts inputted text into a qrcode using the qrcode python library
+tags: Text, Images
+
+Youtube Converter
+yt_converter/
+- Converts youtube videos into mp4 or mp3 files
+tags: Video, Youtube, MP4, MP3, File
+
+Word Counter
+word_counter/
+- Very primitive word counter written in javascript (it only counts spaces)
+tags: Text
+
+Test
+TEST
+-Testing 123
+tags: File Converter
+
+Video extractor
+/
+- Extracts video files from html pages (NON JS LOADED) (working on streamed videos) using beutiful soup
+tags: Video, File
+
+MP4 to MP3
+extract/
+- not yet completed also url change as well probably
+tags: Video, MP4, MP3, File

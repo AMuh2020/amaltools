@@ -1,0 +1,6 @@
+*.pyc
+__pycache__/
+migrations/
+*.cpython-310.pyc
+**/__pycache__
+.*/

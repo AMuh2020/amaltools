@@ -1,0 +1,29 @@
+{% extends "maths/maths_base.html" %}
+{% block meta_description %}{% endblock %}
+{% block title %}Fibonacci Seqeunce{% endblock %}
+{% block h1 %}Fibonacci Seqeunce{% endblock %}
+{% block tool %}
+<form method="post" action="">
+    {% csrf_token %}
+    <div class="input-group">
+        <span class="input-group-text">n_terms: </span>
+        <input class="form-control" type="number" name="number_of_terms" min="0" value="{{ input }}">
+        
+        <input class="btn btn-primary" type="submit">
+    </div>
+    <div class="mt-1 mb-1">
+        <select class="form-select mx-auto" style="width: auto;" id="seperator_select" name="seperator">
+            <option value="," selected>,</option>
+            <option value=".">.</option>
+            <option value="">space</option>
+        </select>
+    </div>
+</form>
+
+<div>
+    <div class="mb-3">
+        <label for="outputTextarea" class="form-label">Output</label>
+        <textarea class="form-control" id="outputTextarea" rows="3" readonly>{% if fibonacci_sequence %}{{ fibonacci_sequence }}{% endif %}</textarea>
+    </div>
+</div>
+{% endblock %}

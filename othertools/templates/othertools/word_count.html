@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block title %}Word Count{% endblock %}
+{% block content%}
+    {% load static %}
+    <h1>Word count</h1>
+    <div id="container-fluid mw-100 g-0 h-100">
+    <div class="row mw-100 m-0">
+        <div class="grid-item col m-1 mw-100 border p-3 h3">
+            <div style="width: 100%;height: 100%;">
+            <span id="count"></span>
+            <textarea style="height: auto;width: 100%;" id="one" onkeyup="change()"></textarea>
+        </div>
+    </div>
+        
+    
+
+{% endblock %}
+{% block scripts %}
+<script type="text/javascript">
+    function change(){
+        console.log("start")
+        let text = document.getElementById("one").value
+        console.log(text)
+        // document.getElementById("testP").textContent = text
+        document.getElementById("count").textContent = "Count: "+WordCount(text)
+    }
+    function WordCount(str) { 
+        console.log("Count:"+str.split(" ").length)
+        if (str == ""){
+            return 0
+        }
+        return str.split(" ").length;
+    }
+    /*  */
+    const tx = document.getElementsByTagName("textarea");
+    for (let i = 0; i < tx.length; i++) {
+        tx[i].setAttribute("style", "height:" + (tx[i].scrollHeight) + "px;overflow-y:hidden;width: 100%;");
+        tx[i].addEventListener("input", OnInput, false);
+    }
+
+    function OnInput() {
+        this.style.height = 0;
+        this.style.height = (this.scrollHeight) + "px";
+        }
+</script>
+
+{% endblock %}

@@ -1,0 +1,20 @@
+{% extends "othertools/othertools_base.html" %}
+{% block title %}YouTube to MP3/MP4{% endblock %}
+
+
+{% block h1 %}CSS Inliner{% endblock %}
+{% block tool %}
+<form class="form mb-2" action="" method="post">
+    {% csrf_token %}
+    HTML
+    <textarea id="" class="form-control mb-2" type="text" name="html"></textarea>
+    <input class="btn btn-primary" type="submit">
+</form>
+{% if html %}
+    Result
+    <textarea class="form-control" rows="10">{{ html }}</textarea>
+{% endif %}
+{% endblock %}
+{% block scripts %}
+
+{% endblock %}

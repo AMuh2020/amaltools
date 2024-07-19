@@ -1,0 +1,123 @@
+{% extends "base.html" %}
+{% block meta_description %}AMALTools is website containing a range of tools to help in a range of situations. There are math tools, file tools and a lot more!{% endblock %}
+{%block meta_keyword %}Tools, Website, Web, Django, Python, Project, Extended Project Qualifications, EPQ, Computer Science, AmalTools, AMALTOOLS, Amal Tools, Amal Tool{% endblock %}
+{% block title %}AMALTools: Free Webtools Online {% endblock %}
+{% block style %}
+<style>
+    
+</style>
+{% endblock %}
+{% block other_header_tags %}
+<link rel="canonical" href="https://amaltools.com" />
+{% endblock %}
+{% block content %}
+<body>
+    <div class="container g-0 h-100 text-center px-4">
+        <h1>Tools</h1>
+        <div class="row">
+            <!-- <form class="mb-3 col-6" method="get" action="/" name="sort"> -->
+            <div class="mb-3 col-6 d-flex align-items-center">
+                <label for="sort_by" class="form-label mb-0 me-1 text-nowrap">Sort By</label>
+                <select class="form-select" aria-label="" onchange="sort_by()" id="sort_by" name="sort_by">
+                    <option>----</option>
+                    <option {% if order_by == "A to Z" %} selected {% endif %} value="A to Z">A to Z</option>
+                    <option {% if order_by == "Z to A" %} selected {% endif %} value="Z to A">Z to A </option>
+                    <option {% if order_by == "Most Popular" %} selected {% endif %} value="Most Popular">Views</option>
+                    <option {% if order_by == "Newest" %} selected {% endif %} value="Newest">Newest</option>
+                    <option {% if order_by == "Oldest" %} selected {% endif %} value="Oldest">Oldest</option>
+                </select>
+            </div>
+            <!-- </form> -->
+            <form class="col-6 mb-3" role="search" method="get" autocomplete="off" name="search_form" onsubmit="return false">
+                <input class="form-control me-2" onkeyup="change()" type="search" name="search" id="searchIndex" placeholder="Search for a tool" aria-label="Search">
+            </form>
+        </div>
+        
+        {% if filter_tags %}
+        <div class="mb-3 text-left">
+            Filter:
+            {% for tag in filter_tags %}
+            <span class="">
+                <a onclick="remove_filter('{{tag}}')" style="cursor: pointer;align-items: center;">
+                    <span class="badge text-bg-primary d-inline-flex align-items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" fill="currentColor" class="bi bi-x-circle-fill me-1" viewBox="0 0 16 16">
+                            <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293 5.354 4.646z"/>
+                        </svg>
+                    {{tag}}
+                    </span>
+                </a>
+            </span>
+            {% endfor %}
+        </div>
+        {% endif %}
+        <div id="tools_div" class="row">
+            {% include 'tools_results_partial.html' %}
+        </div>
+    </div>
+</body>
+    {% block scripts %}
+    <script>
+        var url_p = window.location.pathname.split("/");
+        var tags = url_p[url_p.length -1].split("-");
+        if (tags[0] === ''){
+            tags = []   
+        }
+        
+        // console.log(tags);
+        function add_filter(tag) {
+            if (tags.includes(tag)) {
+                return;
+            }
+            tags.push(tag);
+            let newUrl = window.location.protocol + "//" + window.location.host + "/tags/" + tags.join("-");
+            window.location.href = newUrl;
+        }
+        function remove_filter(tag) {
+            tags = tags.filter(t => t !== tag);
+            let newUrl = window.location.protocol + "//" + window.location.host + "/tags/" + tags.join("-");
+            window.location.href = newUrl;
+            if (tags.length === 0) {
+                window.location.href = window.location.protocol + "//" + window.location.host;
+            }
+        }
+
+        // incremental search
+        function change(){
+            var filter = document.getElementById("searchIndex").value;
+            var goTo = window.location.protocol + "//" + window.location.host + "/?search=" + filter;
+            var response = fetch(goTo, {
+                method: "GET",
+                headers: {
+                    "x-requested-with": "XMLHttpRequest"
+                },
+            }).then(response => {
+                return response.json()
+            }).then(html => {
+                // console.log(html.html_from_view);
+                document.getElementById("tools_div").innerHTML = html.html_from_view;
+            })
+        }
+
+        // Sorts the tools by the selected option
+        function sort_by(){
+            var sort_by = document.getElementById("sort_by").value;
+            // console.log(sort_by);
+            // console.log(window.location.href);
+            var url_to_fetch = window.location.href + "?";
+            fetch(url_to_fetch + new URLSearchParams({
+                sort_by: sort_by,
+            }),{
+                method: "GET",
+                headers: {
+                    "x-requested-with": "XMLHttpRequest"
+                },
+            }).then(response => {
+                return response.json()
+            }).then(html => {
+                // console.log(html.html_from_view);
+                document.getElementById("tools_div").innerHTML = html.html_from_view;
+            })
+        }
+    </script>
+    {% endblock %}
+{% endblock %}

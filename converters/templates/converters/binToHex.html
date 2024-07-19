@@ -1,0 +1,19 @@
+{% extends "converters/converters_base.html" %}
+{% block meta_description %}{% endblock %}
+{% block title %}Binary to Hexadecimal{% endblock %}
+{% block h1 %}Binary to Hexadecimal{% endblock %}
+{% block tool %}
+<form method="post" action="">
+    {% csrf_token %}
+    <div class="input-group">
+        <span class="input-group-text">Binary: </span>
+        <input class="form-control" type="number" name="binary" min="0" value="{{ input }}" >
+        <input class="btn btn-primary" type="submit">
+    </div>
+</form>
+<p>
+    {% if hexadecimal %}
+    Output: {{ hexadecimal }}
+    {% endif %}
+</p>
+{% endblock %}

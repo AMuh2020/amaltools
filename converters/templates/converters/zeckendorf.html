@@ -1,0 +1,18 @@
+{% extends "converters/converters_base.html" %}
+{% block meta_description %}{% endblock %}
+{% block title %}Zeckendorf notation{% endblock %}
+{% block h1 %}Zeckendorf notation{% endblock %}
+{% block tool %}
+<form method="post" action="">
+    {% csrf_token %}
+    <div class="input-group">
+        <span class="input-group-text">Number: </span>
+        <input class="form-control" type="number" name="positive_integer" min="0" value="{{ input }}">
+        <input class="btn btn-primary" type="submit">
+    </div>
+</form>
+<div class="mb-1">
+    <label for="outputTextarea" class="form-label">Output</label>
+    <textarea class="form-control" id="outputTextarea" rows="3" readonly>{% if zeckendorf_representation %}{{ zeckendorf_representation }}{% endif %}</textarea>
+</div>
+{% endblock %}

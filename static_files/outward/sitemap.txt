@@ -1,0 +1,17 @@
+https://amaltools.com/
+https://amaltools.com/2point/
+https://amaltools.com/herons_formula/
+https://amaltools.com/midpoint/
+https://amaltools.com/binToDec/
+https://amaltools.com/decToBin/
+https://amaltools.com/binToHex/
+https://amaltools.com/zeckendorf/
+https://amaltools.com/fibonacci/
+https://amaltools.com/bintotext/
+https://amaltools.com/texttobin/
+https://amaltools.com/simultaneous/
+https://amaltools.com/
+https://amaltools.com/
+https://amaltools.com/
+
+WRITE AN ALGORITHM TO COLLECT URLS

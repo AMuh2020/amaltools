@@ -1,0 +1,55 @@
+{% extends "othertools/othertools_base.html" %}
+{% block meta_description %}{% endblock %}
+{%block meta_keyword %}{% endblock %}
+{% block title %}OCR{% endblock %}
+{% block h1 %}OCR{% endblock %}
+{% block tool %}
+
+<form method="post" action="" enctype="multipart/form-data" class="mb-3">
+    {% csrf_token %}
+    <div class="input-group group1">
+        <span class="input-group-text">File: </span>
+        <input class="form-control" type="file" name="file" accept="image/*">
+        <input class="btn btn-primary" type="submit">
+    </div>
+    {% comment %}
+    <div id="advanced_settings">
+        <!-- write select for pytesseract config -->
+        <div class="input-group group2">
+            <span class="input-group-text">Config: </span>
+            <select class="form-select" name="">
+                <option value="0">Default</option>
+                <option value="1">Config 1</option>
+                <option value="2">Config 2</option>
+                <option value="3">Config 3</option>
+            </select>
+        </div>
+        <!-- psm config options -->
+        <div class="input-group group3">
+            <span class="input-group-text">PSM: </span>
+            <select class="form-select" name="">
+                <option value="0">Orientation and script detection (OSD) only.</option>
+                <option value="1">PSM 1</option>
+                <option disabled value=""> Automatic page segmentation, but no OSD, or OCR. (not implemented)</option>
+                <option selected value="3">Fully automatic page segmentation, but no OSD. (Default)</option>
+                <option value="4">Assume a single column of text of variable sizes.</option>
+                <option value="5">Assume a single uniform block of vertically aligned text.</option>
+                <option value="6">Assume a single uniform block of text.</option>
+                <option value="7">Treat the image as a single text line.</option>
+                <option value="8">Treat the image as a single word.</option>
+                <option value="9">Treat the image as a single word in a circle.</option>
+                <option value="10">Treat the image as a single character.</option>
+                <option value="11">Sparse text. Find as much text as possible in no particular order.</option>
+                <option value="12">Sparse text with OSD.</option>
+                <option value="13">Raw line. Treat the image as a single text line, bypassing hacks that are Tesseract-specific.</option>
+            </select>
+        </div>
+    </div>
+    {% endcomment %}
+</form>
+{% if text %}
+<p>
+    <textarea class="form-control" rows="10">{{text}}</textarea>
+</p>
+{% endif %}
+{% endblock %}

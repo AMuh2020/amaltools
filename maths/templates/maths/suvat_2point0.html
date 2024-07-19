@@ -1,0 +1,228 @@
+{% extends "maths/maths_base.html" %}
+{% block title %}Suvat{% endblock %}
+{% block h1 %}Suvat{% endblock %}
+{% block tool %}
+<form method="post" action="">
+    {% csrf_token %}
+    <div class="input-group mb-3">
+        <span class="input-group-text">Variable</span>
+        <span class="input-group-text">INPUT</span>
+    </div>
+    <div class="input-group mb-3">
+        <span class="input-group-text">Displacement (s)</span>
+        <input id="displacement" class="form-control form-class" type="number" name="s" step="any" value="" autocomplete="off" required>
+    </div>
+    <div class="input-group mb-3">
+        <span class="input-group-text">Initial velocity (u)</span>
+        <input id="initialV" class="form-control form-class" type="number" name="u" step="any" value="" autocomplete="off" required>
+    </div>
+    <div class="input-group mb-3">
+        <span class="input-group-text ">Final velocity (v)</span>
+        <input id="finalV" class="form-control form-class" type="number" name="v" step="any" value="" autocomplete="off" required>
+    </div>
+    <div class="input-group mb-3">
+        <span class="input-group-text">Acceleration (a)</span>
+        <input id="acceleration" class="form-control form-class" type="number" name="a" step="any" value="" autocomplete="off" required>
+    </div>
+    <div class="input-group mb-3">
+        <span class="input-group-text">time (t)</span>
+        <input id="time" class="form-control form-class" type="number" name="t" step="any" value="" autocomplete="off" required>
+    </div>
+    <input type="text" id="remove" hidden name="remove" value="">
+    <input class="btn btn-primary" type="submit">
+</form>
+<span id="err"></span>
+{% endblock %}
+{% block scripts %}
+<script type="text/javascript">
+
+    const form_inps = document.getElementsByClassName("form-class");
+    for (let i = 0; i < form_inps.length; i++) {
+        form_inps[i].addEventListener("change", detect3);
+    };
+
+    /* Such bad coding over here, not bothered to change though, if it works it works!*/
+    function detect3(){
+        
+        let inp = document.querySelectorAll('input[type="number"]')
+        for(let i = 0;i< inp.length;i++){
+            if(inp[i].classList.contains("Selected") && inp[i].value == ""){
+                for(let k = 0;k < 5;k++){
+                    if (inp[k].classList.contains("Selected") == false){
+                        inp[k].value = ""
+                    }
+                }
+            }
+        }
+        /* displacement,initial velocity,final velocity,acceleration,time */
+        let variable = [0,0,0,0,0]
+        let count = 0
+        for(let i = 0;i< inp.length;i++){
+            /*
+            console.log(inp[i].value)*/
+            if(count < 3){
+                if(inp[i].value != ""){
+                    inp[i].classList.add("Selected")
+                    variable[i]=1
+                    count++
+                    // console.log(count)
+                }else if(inp[i].value == "" && inp[i].classList.contains("Selected")){
+                    inp[i].classList.remove("Selected")
+                    variable[i]=0
+                    count--
+                }else{
+
+                }
+                /*
+                if(inp[i].value == "" && inp[i].classList.contains("Selected")== false){
+                    console.log("print im here")
+                    inp[i].classList.add("Disabled")
+                }*/
+                
+                if(inp[i].hasAttribute("disabled")){
+                    inp[i].removeAttribute("disabled", "")
+                }
+            }
+            
+            if(count == 3){
+                
+                for(let k =0;k < 5;k++){
+                    if(inp[k].value ==""){
+                        inp[k].setAttribute("disabled", "")
+                    }
+                }
+                /*calculate(variable)*/
+                msg = calculate_v2()
+                document.getElementById("err").innerHTML = msg
+                break
+            }
+        }
+        
+        
+        // console.log(inp)
+    }
+    /*
+    function calculate(variable){
+        console.log(variable)
+        if(variable[0] == 1 && variable[1] == 1 && variable[2] == 1){
+            console.log("true")
+            let s = document.getElementById("displacement").value
+            let u = document.getElementById("initialV").value
+            let v = document.getElementById("finalV").value
+            let a = (v**2 - u**2)/(2*s)
+            let t = (2*s)/(u+v)
+            console.log(a)
+            document.getElementById("acceleration").setAttribute("value",round_3(a))
+            document.getElementById("time").setAttribute("value",round_3(t))
+        } else if (variable[1] == 1 && variable[2] == 1 && variable[3] == 1){
+            let u = document.getElementById("initialV").value
+            let v = document.getElementById("finalV").value
+            let a = document.getElementById("acceleration").value
+            let s = (v**2 - u**2)/(2*a)
+            let t = (2*s)/(u+v)
+            console.log(a)
+            document.getElementById("acceleration").setAttribute("value",round_3(a))
+            document.getElementById("time").setAttribute("value",round_3(t))
+        } else if (variable[2] == 1 && variable[3] == 1 && variable[4] == 1){
+            let v = document.getElementById("finalV").value
+            let a = document.getElementById("acceleration").value
+            let t = document.getElementById("time").value
+
+        }
+    }
+    */
+    function calculate_v2(){
+            // console.log("begin")
+            
+            let s_element = document.getElementById("displacement")
+            let u_element = document.getElementById("initialV")
+            let v_element = document.getElementById("finalV")
+            let a_element = document.getElementById("acceleration")
+            let t_element = document.getElementById("time")
+
+            let s = s_element.value
+            let u = u_element.value
+            let v = v_element.value
+            let a = a_element.value
+            let t = t_element.value
+            if (t < 0){
+                return "calculation not possible t cannot be less than 0"
+            }
+            // console.log("start",s,u,v,a,t)
+            if (s=="" && u==""){
+                s = v*t -0.5*a*(t**2)
+                u = v - a*t
+                console.log(s,u,v,a,t)
+            }else if(s=="" && v==""){
+                s = u*t + 0.5*a*(t**2)
+                v = u + a*t
+                console.log(s,u,v,a,t)
+            }else if(s=="" && a==""){
+                s = 0.5*(u+v)*t
+                a = (v-u)/t
+                console.log(s,u,v,a,t)
+            }else if(s == "" && t==""){
+                s = (v**2 - u**2)/(2*a)
+                t = (v-u)/a
+                console.log(s,u,v,a,t)
+            }else if(u=="" && v==""){
+                u = (s - 0.5*a*(t**2))/t
+                v = (s + 0.5*a*(t**2))/t
+                console.log(s,u,v,a,t)
+            }else if(u=="" && a==""){
+                u = ((s*2)/t)-v
+                a = ((v*t)-s)/(0.5*(t**2))
+            }else if(u=="" && t==""){
+                u = ((v**2)-(2*a*s))**0.5
+                t = quadratic((0.5*a),-v,s)
+                if (t == "Non real roots"){
+                    return "calculation not possible t is non real"
+                }
+            }else if(v=="" && a==""){
+                v = ((s*2)/t)-u
+                a = ((s-(u*t))/(0.5*(t**2)))
+            }else if(v=="" && t==""){
+                v = (u**2 + 2*a*s)**0.5
+                t = quadratic((0.5*a),u,s)
+                if (t == "Non real roots"){
+                    return "calculation not possible t is non real"
+                }
+            }else if(a=="" && t==""){
+                a = ((v**2)-(u**2))/(2*s)
+                t = s/(0.5*(u+v))
+                if(a== Infinity){
+                    return "calculation not possible a is infinity"
+                } else if (t == Infinity){
+                    return "calculation not possible t is infinity"
+                }
+            }
+            s_element.value = s
+            u_element.value = u
+            v_element.value = v
+            a_element.value = a
+            t_element.value = t
+            console.log(s,u,v,a,t)
+    }
+    function round_3(num){
+        return Math.round(num*100)/100
+    }
+    function quadratic(a,b,c){
+        let discriminat = b**2 - 4*a*c
+        console.log(discriminat)
+        if(discriminat < 0){
+            return "Non real roots"
+        }
+        let ans1 = (-b + (discriminat**0.5))/(2*a)
+        let ans2 = (-b - (discriminat**0.5))/(2*a)
+        print(ans1,ans2)
+        ans1 = round_3(ans1)
+        ans2 = round_3(ans2)
+        if(ans1 >0){
+            return ans1
+        }else{
+            return ans2
+        }
+        
+    }
+</script>
+{% endblock %}

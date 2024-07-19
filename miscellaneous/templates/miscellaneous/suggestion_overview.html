@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block content %}
+    <h1 style="text-align: center;">Suggestions_overview</h1>
+    <div id="container-fluid mw-100 g-0 h-100">
+        <div class="row mw-100 m-0">
+            {% for suggestion_item in suggestions %}
+            <div class="grid-item col m-1 mw-100 border p-3 h3">
+                <h1>{{ suggestion_item.name }}</h1>
+                <h2>{{ suggestion_item.email}}</h2>
+                <p>{{ suggestion_item.creation_date }}</p>
+                <p>{{ suggestion_item.suggestion}}</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

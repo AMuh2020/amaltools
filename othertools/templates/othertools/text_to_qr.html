@@ -1,0 +1,78 @@
+{% extends "othertools/othertools_base.html" %}
+{% block title %}Text to QR CODE{% endblock %}
+{% block h1 %}Text to QR CODE{% endblock %}
+{% block tool %}
+<form method="post" action="" class="mb-3">
+    {% csrf_token %}
+    <div class="input-group mb-2">
+        <input name="text" class="form-control" placeholder="enter text or a link"></input>
+    </div>
+    <button type="button" class="btn btn-secondary" data-bs-toggle="collapse" data-bs-target="#advanced_settings">Advanced settings</button>
+    <div id="advanced_settings" class="collapse">
+        <!-- version -->
+        <span class="text-muted fs-6">0 for auto</span>
+        <div class="d-flex mb-2">
+            <label for="version" class="input-group-text">Version:</label>
+            <input class="form-range w-100 mx-1" name="version" type="range" value="0" min="0" max="40">
+            <span id="version_count" class="input-group-text"></span>
+        </div>
+
+        <!-- error correction -->
+        <div class="input-group mb-2">
+            <label for="error_correction" class="input-group-text">Error correction:</label>
+            <select class="form-select" name="error_correction" id="">
+                <option value="L">L</option>
+                <option selected value="M">M</option>
+                <option value="Q">Q</option>
+                <option value="H">H</option>
+            </select>
+        </div>
+
+        <!-- box size -->
+        <div class="d-flex mb-2">
+            <label for="box_size" class="input-group-text">Box size:</label>
+            <input class="form-range w-100" name="box_size" type="range" value="10" min="1" max="100">
+            <span id="box_size_count" class="input-group-text"></span>
+        </div>
+        
+        <!-- border -->
+        <div class="d-flex mb-2">
+            <label for="border" class="input-group-text">Border:</label>
+            <input class="form-range w-100" name="border" type="range" value="4" min="4" max="20">
+            <span id="border_count" class="input-group-text"></span>
+        </div>
+
+        <!-- fill color -->
+        <div class="input-group mb-2">
+            <label for="fill-color" class="input-group-text">Fill color:</label>
+            <input class="form-control form-control-color" value="#000000" name="fill_color" type="color">
+        </div>
+        
+        <!-- back color -->
+        <div class="input-group mb-2">
+            <label for="back-color" class="input-group-text">Back color:</label>
+            <input class="form-control form-control-color" value="#FFFFFF" name="back_color" type="color">
+        </div>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+{% if qr_code %}
+    <img class="img-fluid" src="data:image/png;base64,{{ qr_code }}">
+{% endif %}
+{% endblock %}
+{% block scripts %}
+<script>
+    document.getElementById("version_count").innerHTML = document.querySelector("input[name='version']").value;
+    document.querySelector("input[name='version']").addEventListener("input", function(){
+        document.getElementById("version_count").innerHTML = document.querySelector("input[name='version']").value;
+    });
+    document.getElementById("box_size_count").innerHTML = document.querySelector("input[name='box_size']").value;
+    document.querySelector("input[name='box_size']").addEventListener("input", function(){
+        document.getElementById("box_size_count").innerHTML = document.querySelector("input[name='box_size']").value;
+    });
+    document.getElementById("border_count").innerHTML = document.querySelector("input[name='border']").value;
+    document.querySelector("input[name='border']").addEventListener("input", function(){
+        document.getElementById("border_count").innerHTML = document.querySelector("input[name='border']").value;
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,19 @@
+{% extends "fileconverters/fileconverters_base.html" %}
+{% block meta_description %}Convert CSV to TSV and TSV TO CSV{% endblock %}
+{%block meta_keyword %}Tools, Website, CSV, TSV, AmalTools, AMALTOOLS, Amal Tools, Amal Tool{% endblock %}
+{% block title %}CSV &lt;-&gt; TSV{% endblock %}
+{% block h1 %}CSV &lt;-&gt; TSV{% endblock %}
+{% block tool %}
+<form method="post" action="" enctype="multipart/form-data">
+    {% csrf_token %}
+    <select class="form-select mb-2" name="direction">
+        <option value="csv_to_tsv" {% if direction == "csv_to_tsv" %} selected {% endif %} >CSV to TSV</option>
+        <option value="tsv_to_csv"{% if direction == "tsv_to_csv" %} selected {% endif %}>TSV to CSV</option>
+    </select>
+    <div class="input-group group1">
+        <span class="input-group-text">File: </span>
+        <input class="form-control" type="file" name="file" accept=".csv .tsv">
+        <input class="btn btn-primary" type="submit">
+    </div>
+</form>
+{% endblock %}

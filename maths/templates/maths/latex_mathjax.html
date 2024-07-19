@@ -1,0 +1,121 @@
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script>
+    window.onload = function() {
+        // render the expression the user entered in intial request
+        if ("{{ expression }}" !== "") {
+            renderView("{{ expression }}");
+        }
+        if ("{{ result.exact }}") { 
+            const result_exact = "{{result.exact|escapejs}}";
+            const result_numerical = "{{result.numerical|escapejs}}";
+            console.log(result_exact, result_numerical);
+            document.getElementById("result").innerHTML = `
+                <p>${toLatex(result_exact)}</p>
+                <p>${toLatex(result_numerical)}</p>
+            `;
+        } else if ("{{ type_integration }}" === "indefinite") {
+            // for indefinite integral
+            const result = "{{ result.expression|escapejs}}" + "+c";
+            console.log(result);
+            document.getElementById("result").innerHTML = `<p>${toLatex(result)}</p>`;
+        } else {
+            // for derivative
+            const result = "{{ result.expression|escapejs}}";
+            console.log(result);
+            document.getElementById("result").innerHTML = `<p>${toLatex(result)}</p>`;
+        }
+        
+        renderPage();
+    }
+    function renderView(input) {
+        const latex = toLatex(input);
+        const mathContent = document.getElementById('mathJcontent');
+        mathContent.textContent = latex;
+        MathJax.typesetClear();
+        MathJax.typesetPromise();
+    }
+    function renderPage() {
+        MathJax.typesetClear();
+        MathJax.typesetPromise();
+    }
+
+function toLatex(input) {
+    let output = input;
+    
+    // Remove \mathtt{} from the result
+    output = output.replace(/\\mathtt\{(.*?)\}/g, "$1");
+    // console.log('1',output);
+
+    // Replace ^ with ^{}
+    output = output.replace(/\^\((.*?)\)/g, '^{$1}');
+    // console.log('2',output);
+
+    // Replace ** with ^{}
+    output = output.replace(/\*\*([^\)\]\s]+)/g, '^{$1}');
+    // console.log('3',output);
+
+    // Replace * with \cdot
+    output = output.replace(/\*/g, '\\cdot ');
+    // console.log('4',output);
+
+    // Replace / with \div
+    output = output.replace(/\//g, '\\div ');
+    // console.log('5',output);
+    
+    // Replace sqrt() with \sqrt{}
+    output = output.replace(/sqrt\((.*?)\)/g, '\\sqrt{$1}');
+    // console.log('6',output);
+
+    // Replace sin() with \sin{}
+    output = output.replace(/sin\((.*?)\)/g, '\\sin{($1)}');
+    // console.log('7',output);
+
+    // Replace cos() with \cos{}
+    output = output.replace(/cos\((.*?)\)/g, '\\cos{($1)}');
+    // console.log('8',output);
+
+    // Replace tan() with \tan{}
+    output = output.replace(/tan\((.*?)\)/g, '\\tan{($1)}');
+    // console.log('9',output);
+
+    // Replace pi with π
+    output = output.replace(/pi/g, '\\pi ');
+    console.log('10',output);
+
+    // replace 2\cdot x with 2x (looks better in latex)
+    output = output.replace(/(\d)\\cdot\s+([a-z0-9()^]+)/gi, '$1$2');
+    console.log('11',output);
+
+    // Replace a/b with \frac{a}{b}
+    output = output.replace(/(\d+)\/(\d+)/g, '\\frac{$1}{$2}');
+    // console.log('12',output);
+    
+    // Replace exp() with e^{}
+    output = output.replace(/exp\((.*?)\)/g, 'e^{$1}');
+    
+    // double backslashes to escape the backslash
+    output = "\\(" + output + "\\)";
+    return output;
+}
+function format(event) {
+    // Prevent the form from being submitted immediately
+    event.preventDefault();
+
+    const inputField = document.querySelector('input[name="expression"]');
+    // inputField.value = inputField.value.replace(/pi/g, 'π');
+    console.log(inputField.value);
+
+    // Replace 2x with 2*x
+    inputField.value = inputField.value.replace(/(\d)([a-z])/g, '$1*$2');
+
+    inputField.value = inputField.value.replace(/e\^([a-z0-9]+)/g, 'e^($1)');
+
+    // Replace e^(2x) with exp(2x)
+    inputField.value = inputField.value.replace(/e\^\((.*?)\)/g, 'exp($1)');
+
+    console.log("here: ",inputField.value);
+    // Submit the form manually
+    event.target.submit();
+}
+</script>

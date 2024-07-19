@@ -1,0 +1,46 @@
+{% extends "othertools/othertools_base.html" %}
+{% block meta_description %}{% endblock %}
+{%block meta_keyword %}{% endblock %}
+{% block title %}Clipboard to image{% endblock %}
+{% block h1 %}Clipboard to image{% endblock %}
+{% block tool %}
+
+<div class="row">
+    <label for="text">Paste an image here</label>
+    <input type="text" class="form-control">
+</div>
+<div class="row mw-100">
+    <img id="img" src="" alt="">
+</div>
+<div class="row">
+    <a id="download_link" href="" download="">Download</a>
+</div>
+
+{% endblock %}
+{% block scripts %}
+<script>
+    document.onpaste = (evt) => {
+        const dT = evt.clipboardData || window.clipboardData;
+        const file = dT.files[ 0 ];
+        console.log( file );
+        const a = document.getElementById("download_link");
+        a.href = URL.createObjectURL(file);
+        a.download = file.name;
+        // read image file and display in the document
+        var reader = new FileReader();
+        reader.onload = (evt) => {
+            console.log("loaded");
+            console.log( evt.target.result );
+            const img = document.getElementById("img");
+            
+            img.src = evt.target.result;
+            img.onload = () => {
+                console.log( img );
+            };
+            
+        };
+        reader.readAsDataURL(file);
+    };
+</script>
+
+{% endblock %}

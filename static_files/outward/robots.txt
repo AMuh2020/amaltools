@@ -1,0 +1,6 @@
+User-agent: *
+Disallow: /admin
+Disallow: /suggestion
+Disallow: /static/
+
+Sitemap: https://amaltools.com/sitemap.txt

@@ -1,0 +1,77 @@
+{% extends "converters/converters_base.html" %}
+{% block meta_description %}{% endblock %}
+{% block title %}Binary to Decimal{% endblock %}
+{% block h1 %}Binary to Decimal{% endblock %}
+{% block tool %}
+{% comment %}
+<select name="" id="">
+    <!--Add logic for selected-->
+    <option value="bintodec">Binary To Decimal</option>
+    <option value="dectobin">Decimal To Binary</option>
+</select>
+{% endcomment %}
+{% comment %}
+<!-- backend METHOD -->
+<form method="post" action="">
+    {% csrf_token %}
+    <div class="input-group">
+        <span class="input-group-text">Binary: </span>
+        <input class="form-control" type="number" name="binary" min="0" value="{{ input }}" >
+        <input class="btn btn-primary" type="submit">
+    </div>
+</form>
+<p>
+{% if decimal %}
+Output: {{ decimal }}
+{% endif %}
+</p>
+{% endcomment %}
+<!-- frontend METHOD  -->
+<div class="input-group">
+    <span class="input-group-text">Binary: </span>
+    <input class="form-control" type="number" name="binary" min="0" value="{{ input }}" >
+    <input class="btn btn-primary" type="submit" onclick="calculate()">
+</div>
+<p></p>
+{% endblock %}
+{% block scripts %}
+<script>
+    function calculate() {
+        let input = document.querySelector('input[name="binary"]').value;
+        let output = document.querySelector('p');
+        let binary = binToDec(input)
+        if (binary){
+            output.innerHTML = `Output: ${binary}`;
+        }
+    }
+    function binToDec(input){
+        let decimal = 0;
+        let binary = input.toString();
+        let length = binary.length;
+        if (checkinput() == false){
+            return;
+        };
+        for (let i = 0; i < length; i++) {
+            let digit = binary[length - i - 1];
+            decimal += digit * Math.pow(2, i);
+        }
+        return decimal;
+    }
+    function checkinput(){
+        let input = document.querySelector('input[name="binary"]').value;
+        // if (input < 0 || input % 1 != 0) {
+        //     alert("Please enter a positive integer");
+        //     return false;
+        // }
+        for (let i = 0; i < input.length; i++) {
+            if (input[i] != 0 && input[i] != 1) {
+                alert("Please enter a binary number");
+                return false;
+            }
+        }
+        return true;
+    }
+
+
+</script>
+{% endblock %}

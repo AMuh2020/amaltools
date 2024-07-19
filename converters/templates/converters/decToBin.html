@@ -1,0 +1,21 @@
+{% extends "converters/converters_base.html" %}
+{% block meta_description %}{% endblock %}
+{% block title %}Decimal to Binary{% endblock %}
+{% block h1 %}Decimal to Binary{% endblock %}
+{% block tool %}
+<form method="post" action="">
+    {% csrf_token %}
+    <div class="input-group">
+        <span class="input-group-text">Decimal: </span>
+        <input class="form-control" type="number" name="decimal" min="0" value="{{ input }}" >
+        <input class="btn btn-primary" type="submit">
+    </div>
+</form>
+<p>
+{% if binary %}
+Output: {{ binary }}
+{% endif %}
+</p>
+{% endblock %}
+<p>Binary</p>
+<p>{{ binary }}</p>

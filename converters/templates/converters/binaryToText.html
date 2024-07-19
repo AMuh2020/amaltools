@@ -1,0 +1,21 @@
+{% extends "converters/converters_base.html" %}
+{% block meta_description %}{% endblock %}
+{% block title %}Binary to text{% endblock %}
+{% block h1 %}Binary to text{% endblock %}
+{% block tool %}
+<form method="post" action="">
+    {% csrf_token %}
+    <div class="mb-3">
+        <label for="inputTextarea" class="form-label">Input</label>
+        <textarea class="form-control" id="inputTextarea" rows="3" name="binary">{{ input }}</textarea>
+    </div>
+    <input class="btn btn-primary" type="submit">
+
+</form>
+
+<div class="mb-3">
+    <label for="outputTextarea" class="form-label">Output</label>
+    <textarea class="form-control" id="outputTextarea" rows="3" readonly>{% if text %}{{ text }}{% endif %}</textarea>
+</div>
+<a href="{% url 'textToBinary' %}">Text to Binary</a>
+{% endblock %}

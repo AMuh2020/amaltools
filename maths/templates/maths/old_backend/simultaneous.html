@@ -1,0 +1,31 @@
+{% extends "maths/maths_base.html" %}
+{% block title %}Simultaneous Equation{% endblock %}
+{% block h1 %}Simultaneous Equation{% endblock %}
+{% block tools %}
+            <p>Format is ax+by=c</p>
+            <form class="" method="post" action="">
+                {% csrf_token %}
+                <div class="input-group mb-2">
+                    <input class="form-control" name="a1"  type="number" value="{{ a1 }}">
+                    <input class="form-control" name="b1"  type="number" value="{{ b1 }}">
+                    <input class="form-control" name="c1"  type="number" value="{{ c1 }}">
+                </div>
+                <div class="input-group mb-2">
+                    <input class="form-control" name="a2"  type="number" value="{{ a2 }}">
+                    <input class="form-control" name="b2"  type="number" value="{{ b2 }}">
+                    <input class="form-control" name="c2"  type="number" value="{{ c2 }}">
+                </div>
+                <button type="submit" class="btn btn-primary mb-3">Calculate</button>
+            </form>
+            {% if x %}
+                x={{ x }} y={{ y }}
+            {% endif %}
+        </div>
+    </div>
+    {% if graph %}
+    <div class="grid-item col m-1 border">{{ graph |safe }}</div>
+    {% endif %}
+    </div>
+    </div>
+
+{% endblock %}

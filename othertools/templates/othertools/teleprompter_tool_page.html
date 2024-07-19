@@ -1,0 +1,164 @@
+{% extends "othertools/othertools_base.html" %}
+{% block meta_description %}Online teleprompter{% endblock %}
+{%block meta_keyword %}Tools, Website, teleprompter, Online teleprompter, Screen reader,Scroll reader, AmalTools, AMALTOOLS, Amal Tools, Amal Tool{% endblock %}
+{% block title %}Teleprompter{% endblock %}
+{% block h1 %}Teleprompter{% endblock %}
+{% block tool %}
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <form class="form" action="/tools/teleprompter_scroller" method="get">
+                {% csrf_token %}
+                <!-- text input -->
+                <div class="input-group mb-3">
+                    <span class="input-group-text">Text: </span>
+                    <textarea class="form-control" name="text" id="text" rows="5"></textarea>
+                </div>
+                <!-- speed input -->
+                <div class="input-group mb-3">
+                    <span class="input-group-text">Speed: </span>
+                    <input type="range" class="form-control" name="speed" id="speed" value="50" max="100">
+                    <span class="input-group-text" id="speed_value">50</span>
+                </div>
+                <!-- font size input -->
+                <div class="input-group mb-3">
+                    <span class="input-group-text">Font size: </span>
+                    <input type="number" class="form-control" name="font_size" id="font_size" value="20">
+                </div>
+                <!-- font family input -->
+                <div class="input-group mb-3">
+                    <span class="input-group-text">Font family: </span>
+                    <select class="form-select" name="font_family" id="font_family">
+                        <!-- Options will be added by JavaScript -->
+                    </select>
+                </div>
+                <!-- font color input -->
+                <div class="input-group mb-3">
+                    <span class="input-group-text">Font color: </span>
+                    <input type="color" class="form-control form-control-color" name="font_color" id="font_color" value="#ffffff">
+                </div>
+                <!-- background color input -->
+                <div class="input-group mb-3">
+                    <span class="input-group-text">Background color: </span>
+                    <input type="color" class="form-control form-control-color" name="" id="background_color" value="#000000">
+                </div>
+                <!-- padding-x input -->
+                <div class="input-group mb-3">
+                    <span class="input-group-text">Padding-x: </span>
+                    <input type="number" class="form-control" id="padding_x" value="20">
+                </div>
+                <input class="btn btn-primary" type="submit">
+            </form>
+        </div>
+    </div>
+</div>
+<!-- preview -->
+<div class="container">
+    Preview:
+    <div id="preview">
+
+    </div>
+</div>
+{% endblock %}
+{% block style %}
+<style>
+    /* default styling for preview, removes the pages styling */
+    #preview {
+        text-align: left;
+        height: 3em;
+        overflow-y: scroll;
+    }
+    
+    
+</style>
+{% endblock %}
+{% block scripts %}
+<script>
+    var text = document.getElementById("text");
+    var speed = document.getElementById("speed");
+    var fontSize = document.getElementById("font_size");
+    var fontFamily = document.getElementById("font_family");
+    var fontColor = document.getElementById("font_color");
+    var backgroundColor = document.getElementById("background_color");
+    var paddingX = document.getElementById("padding_x");
+
+    // Get the preview div
+    var preview = document.getElementById("preview");
+
+    // initial preview update
+
+    // Add event listeners to the input fields
+    text.addEventListener("input", updatePreview);
+    speed.addEventListener("input", () => {
+        updatePreview();
+        updateSpeedValue();
+    });
+    fontSize.addEventListener("input", () => {
+        updatePreview();
+        updateFontSizeValue();
+    });
+    fontFamily.addEventListener("input", updatePreview);
+    fontColor.addEventListener("input", updatePreview);
+    backgroundColor.addEventListener("input", updatePreview);
+    paddingX.addEventListener("input", updatePreview);
+
+    function updatePreview() {
+        // Update the preview div
+        preview.style.fontSize = fontSize.value + "px";
+        preview.style.fontFamily = fontFamily.value;
+        preview.style.color = fontColor.value;
+        preview.style.backgroundColor = backgroundColor.value;
+        preview.innerText = text.value;
+        preview.style.padding = "0 " + paddingX.value + "px";
+
+        // Start scrolling
+        startScrolling();
+    }
+
+    // var scrollSpeed = speed.value; // Adjust this value to change the speed of the scrolling
+    var scrollInterval;
+    var scrollAmount = 0;
+
+    function startScrolling() {
+        var scrollSpeed = 100 - speed.value;
+
+        // Clear any existing interval
+        if (scrollInterval) {
+            clearInterval(scrollInterval);
+        }
+
+        function scrollContent() {
+            if (scrollAmount < preview.scrollHeight) {
+                preview.scrollTop = scrollAmount;
+                scrollAmount += 1;
+            } else {
+                scrollAmount = 0;
+                scrollContent(); // Immediately call the function again
+            }
+        }
+
+        scrollInterval = setInterval(scrollContent, scrollSpeed);
+    }
+
+    function updateSpeedValue() {
+        document.getElementById("speed_value").innerText = speed.value;
+    }
+
+    // Define the list of fonts
+    var fonts = ["Arial", "Courier New", "Georgia", "Times New Roman", "Verdana", /* add more fonts here */];
+
+    // Get the select element
+    var select = document.getElementById("font_family");
+
+    // Clear any existing options
+    select.innerHTML = "";
+
+    // Add an option for each font
+    fonts.forEach(function(font) {
+        var option = document.createElement("option");
+        option.value = font;
+        option.text = font;
+        select.appendChild(option);
+    });
+</script>
+{% endblock %}

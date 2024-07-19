@@ -1,0 +1,95 @@
+
+<div id="comment_section" class="container-fluid g-0 h-100 px-4 border my-3">
+    
+    <form id="comment_form" class="my-4">
+        <p>
+            <label for="id_commenter_name">Name:</label>
+            <input type="text" name="commenter_name" class="form-control" placeholder="Name" maxlength="100" required="" id="id_commenter_name">
+        </p>
+        <p>
+            <label for="id_comment_type">Comment Type:</label>
+            <select name="comment_type" class="form-control" placeholder="Comment Type" id="id_comment_type">
+                <option value="" selected="">---------</option>
+                <option value="General Comment">General Comment</option>
+                <option value="Tool Suggestion">Tool Suggestion</option>
+                <option value="Bug Report">Bug Report</option>
+                <option value="Other">Other</option>
+            </select>
+        </p>
+        <p>
+            <label for="id_comment">Comment:</label>
+            <input name="comment" class="form-control" placeholder="Comment"  required="" id="id_comment"></textarea>
+            <input type="hidden" name="comment_date" class="form-control" placeholder="Date" id="id_comment_date">
+        </p>
+        <input type="submit" class="btn btn-primary" value="Send">
+    </form>
+    <div class="">
+        <div id="comments" class="container" style="overflow-y: scroll;">
+            {% for comment in comments %}
+                <div class="row mb-3">
+                    <!-- <h1>{{ comment.commenter_name }}</h1>
+                    <p>{{ comment.date_sent }}</p>
+                    <p>{{ comment.comment_type }}</p>
+                    <p>{{ comment.comment }}</p> -->
+                    <div class="card">
+                        <div class="card-body">
+                        <h5 class="card-title">{{ comment.commenter_name }}</h5>
+                        <h6 class="card-subtitle mb-2 text-body-secondary">{{ comment.date_sent }}</h6>
+                        <h6 class="card-subtitle mb-2 text-body-secondary">{{ comment.comment_type }}</h6>
+                        <p class="card-text">{{ comment.comment }}</p>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    <div>
+        <nav>
+            <ul class="pagination justify-content-center">
+                {% if comments.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" onclick="loadCommentSection('show',1)">&laquo; first</a>  
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" onclick="loadCommentSection('show',`{{ comments.previous_page_number }}`)">previous</a>
+                    </li>
+                {% endif %}
+                {% for i in comments.paginator.page_range %}
+                    {% if comments.number == i %}
+                        <li class="page-item active">
+                            <a class="page-link" onclick="loadCommentSection('show',`{{ i }}`)">{{ i }}</a>
+                        </li>
+                    {% else %}
+                        <li class="page-item">
+                            <a class="page-link" onclick="loadCommentSection('show',`{{ i }}`)">{{ i }}</a>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+                {% if comments.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" onclick="loadCommentSection('show',`{{ comments.next_page_number }}`)">next</a>  
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" onclick="loadCommentSection('show',`{{ comments.paginator.num_pages }}`)">last &raquo;</a>
+                    </li>
+                {% endif %}
+            </ul>
+    
+        </nav>
+        <!-- <span class="step-links">
+            {% if comments.has_previous %}
+                <a onclick="loadCommentSection('show',1)">&laquo; first</a>
+                <a onclick="loadCommentSection('show',`{{ comments.previous_page_number }}`)">previous</a>
+            {% endif %}
+    
+            <span class="current">
+                Page {{ comments.number }} of {{ comments.paginator.num_pages }}.
+            </span>
+    
+            {% if comments.has_next %}
+                <a onclick="loadCommentSection('show',`{{ comments.next_page_number }}`)">next</a>
+                <a onclick="loadCommentSection('show',`{{ comments.paginator.num_pages }}`)">last &raquo;</a>
+            {% endif %}
+        </span> -->
+    </div>    
+</div>

@@ -1,0 +1,26 @@
+{% extends "converters/converters_base.html" %}
+{% block meta_description %}{% endblock %}
+{% block title %}Number to text{% endblock %}
+{% block h1 %}Number to text{% endblock %}
+{% block tool %}
+<form method="post" action="" class="mb-3">
+    {% csrf_token %}
+    <div class="input-group">
+        <label for="number" class="input-group-text">Number:</label>
+        <input class="form-control" type="text" name="number" value="{{input}}" autocomplete="off" required>
+        {% comment %}
+        Removed as there is some issues on the backend
+        <select class="form-select" name="dash_select" id="" required>
+            <option value="True" {% if dash_select == True %} selected {%endif%}> Seperated by dashes</option>
+            <option value="False" {% if dash_select == False %} selected {%endif%}> Without dash</option>
+        </select>
+        {% endcomment %}
+        <input class="btn btn-primary" type="submit">
+    </div>
+    
+</form>
+<div>
+{{text}}
+</div>
+
+{% endblock %}

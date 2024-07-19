@@ -1,0 +1,24 @@
+{% extends "othertools/othertools_base.html" %}
+{% block meta_description %}Combine PDF Files{% endblock %}
+{%block meta_keyword %}Tools, Website, PDF, Files, File Merger AmalTools, AMALTOOLS, Amal Tools, Amal Tool{% endblock %}
+{% block title %}PDF Merger{% endblock %}
+{% block h1 %}PDF Merger{% endblock %}
+{% block tool %}
+<form method="post" action="" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="input-group group1 mb-3">
+        <span class="input-group-text">File: </span>
+        <input class="form-control" type="file" name="pdfs" accept=".pdf" multiple>
+        
+        <input class="btn btn-primary" type="submit">
+    </div>
+    <button type="button" class="btn btn-secondary" data-bs-toggle="collapse" data-bs-target="#advanced_settings">Advanced settings</button>
+    <div id="advanced_settings" class="collapse">
+        <div class="input-group group1 mb-3">
+            <span class="input-group-text">Output file name: </span>
+            <input class="form-control" type="text" name="output_filename" value="">
+        </div>
+    </div>
+    
+</form>
+{% endblock %}

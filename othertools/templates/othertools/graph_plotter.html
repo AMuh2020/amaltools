@@ -1,0 +1,34 @@
+{% extends "fileconverters/fileconverters_base.html" %}
+{% block meta_description %}{% endblock %}
+{%block meta_keyword %}Tools, Website, CSV, TSV, AmalTools, AMALTOOLS, Amal Tools, Amal Tool{% endblock %}
+{% block title %}Graph maker{% endblock %}
+{% block h1 %}Graph maker{% endblock %}
+{% block tool %}
+<form method="post" action="" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="input-group group1 mb-3">
+        <span class="input-group-text">File: </span>
+        <input class="form-control" type="file" name="data" accept=".csv">
+        <input class="btn btn-primary" type="submit">
+    </div>
+    <div>
+        <h2>Options</h2>
+        <div class="input-group">
+            <span class="input-group-text">Graph type</span>
+            <select class="form-select" name="graph_type">
+                <option value="line">Line</option>
+                <option value="scatter">Scatter</option>
+                <option value="bar">Bar</option>
+                <option value="pie">Pie</option>
+            </select>
+        </div>
+        <div>
+            <label for="show_grid" style="font-size: 1rem;">Show grid</label>
+            <input type="checkbox" name="show_grid">
+        </div>
+    </div>
+</form>
+{% if b64 %}
+    <img src="data:image/png;base64, {{b64}}" alt="Graph" class="img-fluid">
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,49 @@
+{% extends "othertools/othertools_base.html" %}
+{% block title %}YouTube to MP3/MP4{% endblock %}
+
+{% block h1 %}YouTube to MP3/MP4{% endblock %}
+{% block tool %}
+<form class="form" action="" method="post">
+    {% csrf_token %}
+    <div class="input-group mb-1">
+        <label for="yt_link" class="input-group-text">Youtube Link</label>
+        <input id="yt_link" class="form-control" type="url" name="yt_link" placeholder="enter youtube video link" autocomplete="off">
+    </div>
+    <div class="input-group mb-1">
+        <label for="typeSelect" class="input-group-text">Type</label>
+        <select name="type" class="form-select" id="typeSelect" onchange="show_quality()">
+            <option value="audio">mp3</option>
+            <option value="video">mp4</option>
+        </select>
+    </div>
+    
+    <div class="input-group mb-1" id="qualityDiv">
+        <label for="Quality" class="input-group-text">Quality</label>
+        <select name="quality" id="Quality" class="form-select">
+            <option selected value="-">Best</option>
+            <option value="1080">High (1080p)</option>
+            <option value="720">720p</option>
+            <option value="480">480p</option>
+            <option value="360">360p</option>
+            <option value="144">Low (144p)</option>
+        </select>
+    </div>
+    
+    <input class="btn btn-primary" type="submit">
+</form>
+{% endblock %}
+{% block scripts %}
+<script>
+    document.getElementById("qualityDiv").style.display = "none";
+    function show_quality(){
+        console.log("show_quality");
+        var type = document.getElementById("typeSelect").value;
+        var qualitySelect = document.getElementById("qualityDiv");
+        if (type == "audio"){
+            qualitySelect.style.display = "none";
+        } else {
+            qualitySelect.style.display = "flex";
+        }
+    }
+</script>
+{% endblock %}

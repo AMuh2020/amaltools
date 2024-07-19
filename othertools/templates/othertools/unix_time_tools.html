@@ -1,0 +1,112 @@
+{% extends "othertools/othertools_base.html" %}
+{% block meta_description %}Unix Time Tools{% endblock %}
+{%block meta_keyword %}Tools, Website, Unix, Time, Unix Time, Unix Time Tools, AmalTools, AMALTOOLS, Amal Tools, Amal Tool{% endblock %}
+{% block title %}Unix Time Tools{% endblock %}
+{% block h1 %}Unix Time Tools{% endblock %}
+{% block tool %}
+<div class="mb-3">
+    <span class="h3 mb-1">Date to Unix time</span>
+    <div class="input-group mb-1">
+        <span class="input-group-text">Date and Time:</span>
+        <input class="form-control date" type="datetime-local">
+    </div>
+    <div class="input-group">
+        <span class="input-group-text">Unix Time:</span>
+        <span class="form-control unix-time"></span>
+    </div>
+</div>
+
+<div class="mb-3">
+    <span class="h3 mb-1">Unix to Date</span>
+    <div class="input-group mb-1">
+        <span class="input-group-text">Unix Time:</span>
+        <input class="form-control unix" type="text">
+    </div>
+    <div class="input-group">
+        <span class="input-group-text">Date and Time:</span>
+        <span class="form-control date-time"></span>
+    </div>
+</div>
+
+<div class="mb-3">
+    <span class="h3 mb-1">Unix to Discord Time</span>
+    <div class="input-group mb-1">
+        <span class="input-group-text">Unix Time:</span>
+        <input class="form-control unix-discord" type="text">
+    </div>
+    <div class="input-group mb-1">
+        <span class="input-group-text">Discord Time Format:</span>
+        <select class="form-control discord-format">
+            <option value="t">Short Time</option>
+            <option value="T">Long Time</option>
+            <option value="d">Short Date</option>
+            <option value="D">Long Date</option>
+            <option value="f" selected>Short Date/Time</option>
+            <option value="F">Long Date/Time</option>
+            <option value="R">Relative Time</option>
+        </select>
+    </div>
+    <div class="input-group">
+        <span class="input-group-text">Discord Time:</span>
+        <span class="form-control discord-time"></span>
+    </div>
+</div>
+
+
+{% endblock %}
+{% block scripts %}
+<script>
+    function dateToUnix(dateTimeString) {
+        // Split the date and time parts
+        var [datePart, timePart] = dateTimeString.split("T");
+
+        // Split the date into its components
+        var dateParts = datePart.split("-");
+
+        // Split the time into its components
+        var timeParts = timePart.split(":");
+
+        // Create a new Date object in UTC
+        var date = new Date(Date.UTC(dateParts[0], dateParts[1] - 1, dateParts[2], timeParts[0], timeParts[1]));
+
+        // Convert the Date object to Unix time
+        return date.getTime() / 1000;
+    }
+    function unixToDate(unixTime) {
+        var date = new Date(unixTime * 1000);
+        var year = date.getUTCFullYear();
+        var month = ("0" + (date.getUTCMonth() + 1)).slice(-2);
+        var day = ("0" + date.getUTCDate()).slice(-2);
+        var hours = ("0" + date.getUTCHours()).slice(-2);
+        var minutes = ("0" + date.getUTCMinutes()).slice(-2);
+        var seconds = ("0" + date.getUTCSeconds()).slice(-2);
+        return `${day}-${month}-${year} ${hours}:${minutes}:${seconds}`;
+    }
+
+    function unixToDiscordTime(unixTime, format) {
+        return `<t:${unixTime}:${format}>`;
+    }
+
+    document.querySelector('.date').addEventListener('input', function(e) {
+        var unixTime = dateToUnix(e.target.value);
+        document.querySelector('.unix-time').textContent = unixTime;
+    });
+
+    document.querySelector('.unix').addEventListener('input', function(e) {
+        var date = unixToDate(e.target.value);
+        document.querySelector('.date-time').textContent = date;
+    });
+
+    document.querySelector('.unix-discord').addEventListener('input', function(e) {
+        var format = document.querySelector('.discord-format').value;
+        var discordTime = unixToDiscordTime(e.target.value, format);
+        document.querySelector('.discord-time').textContent = discordTime;
+    });
+
+    document.querySelector('.discord-format').addEventListener('change', function(e) {
+        var unixTime = document.querySelector('.unix-discord').value;
+        var discordTime = unixToDiscordTime(unixTime, e.target.value);
+        document.querySelector('.discord-time').textContent = discordTime;
+    });
+</script>
+{% endblock %}

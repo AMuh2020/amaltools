@@ -1,0 +1,22 @@
+{% extends "fileconverters/fileconverters_base.html" %}
+{% block meta_description %}converts pdfs into png or jpeg formats{% endblock %}
+{%block meta_keyword %}Tools, Website, PDF, Files, PDF,AmalTools, AMALTOOLS, Amal Tools, Amal Tool{% endblock %}
+{% block title %}PDF to Image{% endblock %}
+{% block h1 %}PDF to Image{% endblock %}
+{% block tool %}
+<form method="post" action="" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="input-group group1 mb-3">
+        <span class="input-group-text">File: </span>
+        <input class="form-control" type="file" name="pdf" accept=".pdf">
+        <!-- input for image format -->
+        <select class="form-select" name="image_format" style="flex: 0 0 20%;">
+            <option value="png">PNG</option>
+            <option value="jpg">JPG</option>
+        </select>
+        
+        <input class="btn btn-primary" type="submit">
+    </div>
+    
+</form>
+{% endblock %}

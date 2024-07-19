@@ -1,0 +1,32 @@
+{% extends "maths/maths_base.html" %}
+{% block meta_description %}{% endblock %}
+{% block title %}Midpoint{% endblock %}
+{% block h1 %}Midpoint{% endblock %}
+{% block tool %}
+<form method="post" action="">
+    {% csrf_token %}
+    <!--helped me find out how to write list index in template language https://stackoverflow.com/questions/1479206/django-templating-how-to-access-properties-of-the-first-item-in-a-list-->
+    <div class="input-group mb-2">
+        <span class="input-group-text">Point 1</span>
+        <input type="text" placeholder="x" name="x1" aria-label="x coordinate of point 1" value="{{ point1.0 }}" class="form-control" required autocomplete="off">
+        <span class="input-group-text">,</span>
+        <input type="text" placeholder="y" name="y1" aria-label="y coordinate of point 1" value="{{ point1.1 }}" class="form-control" required autocomplete="off">
+    </div>
+    <div class="input-group mb-2">
+        <span class="input-group-text">Point 2</span>
+        <input type="text" placeholder="x" name="x2" aria-label="x coordinate of point 2" value="{{ point2.0 }}" class="form-control" required autocomplete="off">
+        <span class="input-group-text">,</span>
+        <input type="text" placeholder="y" name="y2" aria-label="y coordinate of point 2" value="{{ point2.1 }}" class="form-control" required autocomplete="off">
+    </div>
+    <button type="submit" class="btn btn-primary mb-3">Calculate</button>
+</form>
+{% if midpoint %}
+Midpoint: ({{ midpoint.0 }},{{ midpoint.1 }})
+{% endif %}
+{% endblock %}
+
+{% block extra %}
+{% if graph %}
+<div class="col m-1 border p-3 h3 d-flex justify-content-center">{{ graph |safe }}</div>
+{% endif %}
+{% endblock %}

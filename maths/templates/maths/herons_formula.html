@@ -1,0 +1,76 @@
+{% extends "maths/maths_base.html" %}
+{% block meta_description %}{% endblock %}
+{% block title %}Heron's formula{% endblock %}
+{% block h1 %}Heron's formula{% endblock %}
+{% block tool %}
+<form method="post" action="" id="form">
+    {% csrf_token %}
+    <div class="mb-3 input-group">
+        <span class="input-group-text">side a:</span>
+        <input class="form-control" name="a" id="a" type="number" value="{{ a }}" autocomplete="off" required step="any">
+    </div>
+    <div class="mb-3 input-group">
+        <span class="input-group-text">side b:</span>
+        <input class="form-control" name="b" id="b" type="number" value="{{ b }}" autocomplete="off" required step="any">
+    </div>
+    <div class="mb-3 input-group">
+        <span class="input-group-text">side c:</span>
+        <input class="form-control" name="c" id="c" type="number" value="{{ c }}" autocomplete="off" required step="any">
+    </div>
+    <button type="submit" class="btn btn-primary mb-3">Calculate</button>
+</form>
+{% if result %}
+<span>Area: {{ result }}</span>
+{% endif %}
+{% endblock %}
+{% comment %}
+{% block extra %}
+<div class="col m-1 border p-3 h3 d-flex justify-content-center">
+    <!--https://developer.mozilla.org/en-US/docs/Web/SVG/Element/line-->
+    <!--https://css-tricks.com/scale-svg/ used for veiwbox-->
+    
+    <svg class="img-fluid" viewBox="-3 0 130 120">
+        <text id="a_text" x="43" y="43">a</text>
+        <line id="a_line" x1="0" y1="80" x2="100" y2="20" stroke="black" />
+
+        <text id="b_text" x="117" y="50">b</text>
+        <line id="b_line" x1="100" y1="20" x2="120" y2="80" stroke="black" />
+        
+        <text id="c_text" x="60" y="95">c</text>
+        <line id="c_line" x1="120" y1="80" x2="0" y2="80" stroke="black" />
+        {% if result %}
+        <text id="result" x="60" y="60" font-size="5px"> Area: {{result}}</text>
+        {% endif %}
+    </svg>
+
+    <script>
+        /* https://developer.mozilla.org/en-US/docs/Web/API/Element/focus_event */
+        const a = document.getElementById("form")
+        a.addEventListener('focus', (event) => {
+            /* event.target.style.background = 'blue'; */
+            highlight(event.target.name)
+        },true);
+        a.addEventListener('blur', (event) => {
+            /* event.target.style.background = ''; */
+            unhighlight(event.target.name)
+        },true);
+        
+        function highlight(name) {
+            var id_line = name + "_line"
+            var id_text = name + "_text"
+            //console.log(id_line)
+            document.getElementById(id_line).style.stroke = "#03bafc";
+            document.getElementById(id_text).style.fill = "#03bafc";
+        }
+        function unhighlight(name) {
+            var id_line = name + "_line"
+            var id_text = name + "_text"
+            //console.log(id_line)
+            document.getElementById(id_line).style.stroke = "black";
+            document.getElementById(id_text).style.fill = "black";
+        }
+    </script>
+</div>
+{% endblock %}
+{% endcomment %}
+

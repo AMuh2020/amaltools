@@ -1,0 +1,51 @@
+{% extends "maths/maths_base.html" %}
+{% block meta_description %} Quadratic equation solver{% endblock %}
+{% block title %}Quadratic formula{% endblock %}
+{% block h1%}Quadratic formula: ax^2+bx+c=0{% endblock %}
+{% block tool %}
+<form id="form">
+    <div class="input-group mb-3">
+        <span class="input-group-text">Output form:</span>
+        <select id="output_form" class="form-select" name="output_form">
+            <option value="x=... x=...">x=... x=...</option>
+            <option value="x=(-b+(b^2-4ac)^0.5)/2 x=(-b-(b^2-4ac)^0.5)/2">x=(-b+(b^2-4ac)^0.5)/2 x=(-b-(b^2-4ac)^0.5)/2</option>
+        </select>
+    </div>
+    <div class="input-group mb-3">
+        <span class="input-group-text" id="">a</span>
+        <input class="form-control" name="a" id="a" type="number" value="{{ a }}" autocomplete="off" required>
+    </div>
+    <div class="input-group mb-3">
+        <span class="input-group-text" id="">b</span>
+        <input class="form-control" name="b" id="b" type="number" value="{{ b }}" autocomplete="off" required>
+    </div>
+    <div class="input-group mb-3">
+        <span class="input-group-text" id="">c</span>
+        <input class="form-control" name="c" id="c" type="number" value="{{ c }}" autocomplete="off" required>
+    </div>
+    <button type="button" id="calculate_btn" class="btn btn-primary">Calculate</button>
+</form>
+<span id="result">x = {{ x1 }} x = {{ x2 }}</span>
+{% endblock %}
+{% block scripts %}
+<script>
+    // function that calulates quadratic
+    document.getElementById("calculate_btn").addEventListener("click", quadratic);
+    document.getElementById("result").innerHTML = "";
+    function quadratic(){
+        output_form = document.getElementById("output_form").value;
+        a = document.getElementById("a").value;
+        b = document.getElementById("b").value;
+        c = document.getElementById("c").value;
+        var x1 = (-b + Math.sqrt(b*b-4*a*c))/(2*a);
+        var x2 = (-b - Math.sqrt(b*b-4*a*c))/(2*a);
+        
+        if (output_form == "x=... x=..."){
+            document.getElementById("result").innerHTML = `x = ${x1} x = ${x2}`;
+        } else {
+            document.getElementById("x1").innerHTML = "(-b + Math.sqrt(b*b-4*a*c))/(2*a)"
+            document.getElementById("x2").innerHTML = "(-b - Math.sqrt(b*b-4*a*c))/(2*a)";
+        }
+    }
+</script>
+{% endblock %}

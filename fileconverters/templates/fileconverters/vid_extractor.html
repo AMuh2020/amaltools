@@ -1,0 +1,25 @@
+{% extends "fileconverters/fileconverters_base.html" %}
+{% block title %}Video Downloader{% endblock %}
+{% block meta_description %}Download videos from Facebook, Instagram, Twitter, TikTok, and many other websites{% endblock %}
+{% block meta_keyword %}Video, Downloader, YouTube, Facebook, Instagram, Twitter, TikTok{% endblock %}
+{% block h1 %}Video Downloader{% endblock %}
+{% block tool %}
+<form method="post" action="" class="">
+    {% csrf_token %}
+    <div class="input-group">
+        <input name="url" class="form-control" placeholder="enter a link"></input>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
+</form>
+<div class="">
+    {% if vid_src %}
+    <div>
+        <a href="{{ vid_src }}" download>download</a>
+    </div>
+    <div class="mw-100">
+        preview: 
+        <video class="img-fluid" src="{{ vid_src }}" controls><source src="{{ vid_src }}" type="video/mp4"></video>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
